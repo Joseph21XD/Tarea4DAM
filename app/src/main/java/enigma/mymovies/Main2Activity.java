@@ -31,13 +31,15 @@ public class Main2Activity extends AppCompatActivity {
     Spinner spinner;
     String categoria="list_order";
     String orden= "asc";
+    String[] categorias = {"list order","alpha","moviemeter","user rating","num votes","release date","runtime","date added"};
+    int pos= 0;
 
     public void pushRadioButton(View view){
         RadioButton radioButton= findViewById(R.id.radioButton);
         RadioButton radioButton2= findViewById(R.id.radioButton2);
         RadioButton radioButton3= (RadioButton)view;
         String s= radioButton3.getText().toString();
-        if(s.equals("Ascendant")){
+        if(s.equals("Ascendente")){
             Log.d("ORDEN","ASCENDANT");
             radioButton.setChecked(true);
             radioButton2.setChecked(false);
@@ -70,14 +72,14 @@ public class Main2Activity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main2);
         spinner = (Spinner) findViewById(R.id.spinner);
-        String[] letra = {"list_order","alpha","moviemeter","user rating","num votes","release date","runtime","date added"};
+        String[] letra = {"orden de lista","alfabetico","popularidad","votacion de usuarios","cantidad de votos","fecha de estreno","duración","fecha agregada"};
         spinner.setAdapter(new ArrayAdapter<String>(this, R.layout.spinner_layout, letra));
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int pos, long id)
             {
-                categoria= adapterView.getItemAtPosition(pos)+"";
+                categoria= categorias[pos];
             }
 
             @Override
@@ -99,6 +101,7 @@ public class Main2Activity extends AppCompatActivity {
                 String nam="> <img alt=\"";
                 String met="metascore  favorable";
                 String rat="rating-rating \"><span class=\"value\">";
+                String desc="<p class=\"\">";
                 pagina = new URL(strings[0]);
                 URLConnection uc = pagina.openConnection();
                 uc.connect();
@@ -108,8 +111,10 @@ public class Main2Activity extends AppCompatActivity {
                 String imagen= "";
                 String rate="";
                 String score="";
+                String descripcion="";
                 int cant= 21;
-                int cont=4;
+                Boolean estado= false;
+                int cont=5;
                 while ((linea = lector.readLine()) != null && cant!=0) {
                     if (linea.contains(img)) {
                         String s=linea.substring(10);
@@ -134,15 +139,23 @@ public class Main2Activity extends AppCompatActivity {
                         Log.d("ESTE",rate);
                         cont--;
                     }
+                    else if(linea.contains(desc)){
+                        estado= true;
+                    }
+                    else if(estado == true){
+                        estado=false;
+                        descripcion= linea.substring(0,linea.length()-4);
+                        cont--;
+                    }
                     if(cont==0){
                         cant--;
-                        cont=4;
+                        cont=5;
                         URL url= new URL(imagen);
                         HttpURLConnection httpURLConnection= (HttpURLConnection) url.openConnection();
                         httpURLConnection.connect();
                         InputStream inputStream= httpURLConnection.getInputStream();
                         Bitmap bitmap= BitmapFactory.decodeStream(inputStream);
-                        movies.add(new Movie(nombre,bitmap,Double.parseDouble(rate),Integer.parseInt(score)));
+                        movies.add(new Movie(nombre,bitmap,Double.parseDouble(rate),Integer.parseInt(score),descripcion));
                     }
 
                 }

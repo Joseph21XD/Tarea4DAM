@@ -1,5 +1,6 @@
 package enigma.mymovies;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
@@ -38,12 +39,6 @@ public class MainActivity extends AppCompatActivity {
         ImageView imageView= (ImageView)view;
         imageView.setImageBitmap(movies.get(i).getImagen());
         }
-        for(int i=0; i<movies.size();i++){
-            int j= i/3;
-            View view= gridLayout.getChildAt(i+(j*3)+3);
-            TextView textView=(TextView) view;
-            textView.setText((i+1)+") "+procesaString(movies.get(i).getNombre())+"\n   Score: "+movies.get(i).getMetascore()+"\n   Rate: "+movies.get(i).getImdbRate());
-        }
     }
 
     public String procesaString(String s){
@@ -55,6 +50,14 @@ public class MainActivity extends AppCompatActivity {
         }
         resultado+=s;
         return resultado;
+    }
+
+    public void imageClick(View view){
+        ImageView imageView= (ImageView)view;
+        int k= Integer.parseInt(imageView.getTag()+"")-1;
+        Intent intent= new Intent(MainActivity.this,Main3Activity.class);
+        intent.putExtra("VALOR",k+"");
+        startActivity(intent);
     }
 
 }

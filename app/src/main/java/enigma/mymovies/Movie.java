@@ -8,15 +8,17 @@ import android.graphics.Bitmap;
 
 public class Movie {
     private String nombre;
+    private String descripcion;
     private Bitmap imagen;
     private double imdbRate;
     private int metascore;
 
-    public Movie(String name, Bitmap image, double rate, int score){
+    public Movie(String name, Bitmap image, double rate, int score, String desc){
         nombre=name;
         imagen=image;
         imdbRate= rate;
         metascore=score;
+        descripcion= desc;
     }
 
     public String getNombre() {
@@ -50,5 +52,13 @@ public class Movie {
 
     public void setMetascore(int metascore) {
         this.metascore = metascore;
+    }
+
+    public String getDescripcion() {
+        return descripcion;
+    }
+
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
     }
 }

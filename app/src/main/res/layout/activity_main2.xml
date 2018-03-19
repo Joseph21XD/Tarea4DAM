@@ -38,7 +38,7 @@
             android:layout_height="wrap_content"
             android:checked="true"
             android:onClick="pushRadioButton"
-            android:text="Ascendant"
+            android:text="Ascendente"
             android:textColor="@android:color/holo_red_dark"
             android:textIsSelectable="false" />
 
@@ -47,7 +47,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:onClick="pushRadioButton"
-            android:text="Discendant"
+            android:text="Descendente"
             android:textColor="@android:color/holo_red_dark" />
 
         <Spinner
